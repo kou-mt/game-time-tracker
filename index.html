@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ゲーム時間記録</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>ゲーム時間記録</h1>
+
+  <form id="record-form">
+    <div class="field">
+      <label for="game-name">ゲーム名</label>
+      <input type="text" id="game-name" list="game-options" placeholder="ゲーム名を入力" required>
+      <datalist id="game-options"></datalist>
+    </div>
+
+    <div class="field">
+      <label>プレイ時間</label>
+      <div class="time-select-group">
+        <select id="play-hours" required></select>
+        <span>時間</span>
+        <select id="play-minutes" required></select>
+        <span>分</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="play-date">プレイした日付</label>
+      <input type="date" id="play-date" required>
+    </div>
+
+    <input type="hidden" id="editing-id" value="">
+
+    <button type="submit" id="submit-btn">記録を追加</button>
+    <button type="button" id="cancel-edit-btn" hidden>編集をやめる</button>
+  </form>
+
+  <h2>ゲームごとの合計プレイ時間</h2>
+  <ul id="totals-list"></ul>
+
+  <h2>記録一覧</h2>
+  <table id="records-table">
+    <thead>
+      <tr>
+        <th>日付</th>
+        <th>ゲーム名</th>
+        <th>時間</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="records-body"></tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>
