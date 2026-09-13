@@ -38,6 +38,33 @@ input, select {
   border-radius: 4px;
 }
 
+.autocomplete {
+  position: relative;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.suggestions div {
+  padding: 10px 8px;
+  cursor: pointer;
+}
+
+.suggestions div:hover {
+  background-color: #eef4fc;
+}
+
 .time-select-group {
   display: flex;
   align-items: center;

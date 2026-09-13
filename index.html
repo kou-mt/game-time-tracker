@@ -10,10 +10,10 @@
   <h1>ゲーム時間記録</h1>
 
   <form id="record-form">
-    <div class="field">
+    <div class="field autocomplete">
       <label for="game-name">ゲーム名</label>
-      <input type="text" id="game-name" list="game-options" placeholder="ゲーム名を入力" required>
-      <datalist id="game-options"></datalist>
+      <input type="text" id="game-name" placeholder="ゲーム名を入力" autocomplete="off" required>
+      <div id="game-suggestions" class="suggestions" hidden></div>
     </div>
 
     <div class="field">

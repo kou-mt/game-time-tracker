@@ -8,9 +8,11 @@ const playDateInput = document.getElementById('play-date');
 const editingIdInput = document.getElementById('editing-id');
 const submitBtn = document.getElementById('submit-btn');
 const cancelEditBtn = document.getElementById('cancel-edit-btn');
-const gameOptions = document.getElementById('game-options');
+const gameSuggestions = document.getElementById('game-suggestions');
 const recordsBody = document.getElementById('records-body');
 const totalsList = document.getElementById('totals-list');
+
+let allGameNames = [];
 
 function loadRecords() {
   const json = localStorage.getItem(STORAGE_KEY);
@@ -68,11 +70,29 @@ function resetForm() {
   cancelEditBtn.hidden = true;
 }
 
-function renderGameOptions(records) {
-  const uniqueNames = [...new Set(records.map((r) => r.game))];
-  gameOptions.innerHTML = uniqueNames
-    .map((name) => `<option value="${escapeHtml(name)}"></option>`)
+function updateGameNames(records) {
+  allGameNames = [...new Set(records.map((r) => r.game))];
+}
+
+function showSuggestions(filterText) {
+  const text = filterText.trim().toLowerCase();
+  const matches = text
+    ? allGameNames.filter((name) => name.toLowerCase().includes(text))
+    : allGameNames;
+
+  if (matches.length === 0) {
+    gameSuggestions.hidden = true;
+    return;
+  }
+
+  gameSuggestions.innerHTML = matches
+    .map((name) => `<div>${escapeHtml(name)}</div>`)
     .join('');
+  gameSuggestions.hidden = false;
+}
+
+function hideSuggestions() {
+  gameSuggestions.hidden = true;
 }
 
 function renderTotals(records) {
@@ -118,7 +138,7 @@ function renderTable(records) {
 
 function render() {
   const records = loadRecords();
-  renderGameOptions(records);
+  updateGameNames(records);
   renderTotals(records);
   renderTable(records);
 }
@@ -189,6 +209,26 @@ recordsBody.addEventListener('click', (e) => {
 
 cancelEditBtn.addEventListener('click', () => {
   resetForm();
+});
+
+gameNameInput.addEventListener('focus', () => {
+  showSuggestions(gameNameInput.value);
+});
+
+gameNameInput.addEventListener('input', () => {
+  showSuggestions(gameNameInput.value);
+});
+
+gameSuggestions.addEventListener('click', (e) => {
+  if (e.target.tagName !== 'DIV') return;
+  gameNameInput.value = e.target.textContent;
+  hideSuggestions();
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target !== gameNameInput && !gameSuggestions.contains(e.target)) {
+    hideSuggestions();
+  }
 });
 
 populateTimeSelects();
